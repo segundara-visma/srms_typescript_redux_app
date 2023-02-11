@@ -6,21 +6,19 @@ import { selectMe, UserState } from '../user/userSlice';
 import { useAppSelector } from '../../app/hooks'
 
 const NavBar = () => {
-    const [currentUserInfo, setCurrentUserInfo] = useState<UserState['me']>()
+    const [currentUserInfo, setCurrentUserInfo] = useState<UserState['me']>(useAppSelector(selectMe))
     const location = useLocation();
-
-    useAppSelector(selectMe)
 
     const localcurrent = localStorage.getItem('currentUser')
 
     const loggedInTitle = localStorage.getItem("userTitle");
 
     useEffect(() => {
-        if (loggedInTitle) {
-            const currentUser = localcurrent && JSON.parse(localcurrent)
+        if (localcurrent) {
+            const currentUser = JSON.parse(localcurrent)
             setCurrentUserInfo(currentUser)
         }
-    }, [loggedInTitle, localcurrent])
+    }, [localcurrent])
 
     const img = () => {
         return currentUserInfo && currentUserInfo.image ?
