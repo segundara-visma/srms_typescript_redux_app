@@ -141,11 +141,11 @@ const StudentList = () => {
             <Spinner animation="border" variant="dark" />
           </div>
         )}
+        {!loading && !myStudentsList && (
+          <Alert className="text-center">No record found!</Alert>
+        )}
         {!loading && myStudentsList && myCourseList  && totalStudentsByCourse && (
           <>
-            {!myCourseList || myCourseList.length < 1 && (
-              <Alert className="text-center">No course assigned to you at the moment!</Alert>
-            )}
             {myStudentsList.length > 0 && (
             <>
               <Tab.Container

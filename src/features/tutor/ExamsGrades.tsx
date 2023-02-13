@@ -122,11 +122,11 @@ function ExamsGradesFromTutor() {
           <Spinner animation="border" variant="dark" />
         </div>
       )}
+      {!loading && !examsRecords && (
+        <Alert className="text-center">No record found!</Alert>
+      )}
       {!loading && examsRecords && myCourseList && totalStudentsByExam && (
         <>
-        {!myCourseList || myCourseList.length < 1 && (
-          <Alert className="text-center">No course assigned to you at the moment!</Alert>
-        )}
         {myCourseList.length > 0 && (
           <Tab.Container
             id="left-tabs-example"
