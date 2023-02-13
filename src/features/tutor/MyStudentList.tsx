@@ -143,7 +143,7 @@ const StudentList = () => {
         )}
         {!loading && myStudentsList && myCourseList  && totalStudentsByCourse && (
           <>
-            {myCourseList.length < 1 && (
+            {!myCourseList || myCourseList.length < 1 && (
               <Alert className="text-center">No course assigned to you at the moment!</Alert>
             )}
             {myStudentsList.length > 0 && (

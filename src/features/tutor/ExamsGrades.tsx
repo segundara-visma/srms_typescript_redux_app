@@ -124,7 +124,7 @@ function ExamsGradesFromTutor() {
       )}
       {!loading && examsRecords && myCourseList && totalStudentsByExam && (
         <>
-        {myCourseList.length < 1 && (
+        {!myCourseList || myCourseList.length < 1 && (
           <Alert className="text-center">No course assigned to you at the moment!</Alert>
         )}
         {myCourseList.length > 0 && (
