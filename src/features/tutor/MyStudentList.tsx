@@ -231,7 +231,6 @@ const StudentList = () => {
         {!loading && errorMessage && !myStudentsList && !myCourseList  && !totalStudentsByCourse &&  (
           <p className="text-center">
             <strong>No record at the moment!</strong>
-            {errorMessage}
           </p>
         )}
       </div>
