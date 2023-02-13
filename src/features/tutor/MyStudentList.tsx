@@ -142,91 +142,100 @@ const StudentList = () => {
           </div>
         )}
         {!loading && myStudentsList && myCourseList  && totalStudentsByCourse && (
-          <Tab.Container
-            id="left-tabs-example"
-            defaultActiveKey="0"
-          >
-            <Row>
-              <Col sm={3}>
-                <Nav variant="pills" className="flex-column">
-                  {myCourseList.map((course: { name: '', _id: ''}, i: number) => {
-                    return (
-                      <Nav.Item key={i}>
-                        <Nav.Link
-                          eventKey={i}
-                          className="d-flex justify-content-between btn-link px-1"
-                          onClick={() => handleTabChange(i, course._id)}
-                        >
-                          <small>
-                            <b>{course.name}</b>
-                          </small>
-                          <span className="badge">{totalStudentsByCourse[i]}</span>
-                        </Nav.Link>
-                      </Nav.Item>
-                    );
-                  })}
-                </Nav>
-              </Col>
-              <Col sm={9}>
-                <Tab.Content>
-                  {myStudentsList.length < 1 && (
-                    <Alert className="text-center">No student on this course</Alert>
-                  )}
-                  {myStudentsList.length > 0 && (
-                  <>
-                    <Table responsive="md" size="md">
-                      <thead>
-                        <tr className="app-table">
-                          <th>#</th>
-                          <th>First Name</th>
-                          <th>Last Name</th>
-                          <th>Message</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {myStudentsList.map((s: {firstname: '', lastname: '', email: ''}, i: number) => {
-                          return (
-                            <tr key={i} className="app-table">
-                              <td>
-                                {currentPage > 1
-                                  ? (i =
-                                    i +
-                                    1 +
-                                    perPage * currentPage -
-                                    perPage)
-                                  : (i = i + 1)}
-                              </td>
-                              <td>{s.firstname}</td>
-                              <td>{s.lastname}</td>
-                              <td className="text-center">
-                                <Button
-                                  className="btn-secondary"
-                                  onClick={() => setEmailProcess(s)}
-                                >
-                                  <FontAwesomeIcon icon={faEnvelope} />
-                                </Button>
-                              </td>
+          <>
+            {myCourseList.length < 1 && (
+              <Alert className="text-center">No course assigned to you at the moment!</Alert>
+            )}
+            {myStudentsList.length > 0 && (
+            <>
+              <Tab.Container
+                id="left-tabs-example"
+                defaultActiveKey="0"
+              >
+                <Row>
+                  <Col sm={3}>
+                    <Nav variant="pills" className="flex-column">
+                      {myCourseList.map((course: { name: '', _id: ''}, i: number) => {
+                        return (
+                          <Nav.Item key={i}>
+                            <Nav.Link
+                              eventKey={i}
+                              className="d-flex justify-content-between btn-link px-1"
+                              onClick={() => handleTabChange(i, course._id)}
+                            >
+                              <small>
+                                <b>{course.name}</b>
+                              </small>
+                              <span className="badge">{totalStudentsByCourse[i]}</span>
+                            </Nav.Link>
+                          </Nav.Item>
+                        );
+                      })}
+                    </Nav>
+                  </Col>
+                  <Col sm={9}>
+                    <Tab.Content>
+                      {myStudentsList.length < 1 && (
+                        <Alert className="text-center">No student on this course</Alert>
+                      )}
+                      {myStudentsList.length > 0 && (
+                      <>
+                        <Table responsive="md" size="md">
+                          <thead>
+                            <tr className="app-table">
+                              <th>#</th>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Message</th>
                             </tr>
-                          );
-                        })}
-                      </tbody>
-                    </Table>
-                    <div className="d-flex justify-content-between pl-3">
+                          </thead>
+                          <tbody>
+                            {myStudentsList.map((s: {firstname: '', lastname: '', email: ''}, i: number) => {
+                              return (
+                                <tr key={i} className="app-table">
+                                  <td>
+                                    {currentPage > 1
+                                      ? (i =
+                                        i +
+                                        1 +
+                                        perPage * currentPage -
+                                        perPage)
+                                      : (i = i + 1)}
+                                  </td>
+                                  <td>{s.firstname}</td>
+                                  <td>{s.lastname}</td>
+                                  <td className="text-center">
+                                    <Button
+                                      className="btn-secondary"
+                                      onClick={() => setEmailProcess(s)}
+                                    >
+                                      <FontAwesomeIcon icon={faEnvelope} />
+                                    </Button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </Table>
+                        <div className="d-flex justify-content-between pl-3">
 
-                      <Pagination
-                        numOfPages={nPages}
-                      />
+                          <Pagination
+                            numOfPages={nPages}
+                          />
 
-                      <Button className="text-right app-variant" disabled>
-                        page <strong>{currentPage}</strong> of{" "}
-                        <strong>{nPages}</strong>
-                      </Button>
-                    </div>
-                  </>)}
-                </Tab.Content>
-              </Col>
-            </Row>
-          </Tab.Container>
+                          <Button className="text-right app-variant" disabled>
+                            page <strong>{currentPage}</strong> of{" "}
+                            <strong>{nPages}</strong>
+                          </Button>
+                        </div>
+                      </>)}
+                    </Tab.Content>
+                  </Col>
+                </Row>
+              </Tab.Container>
+            </>
+          )}
+          </>
         )}
         {!loading && errorMessage && !myStudentsList && !myCourseList  && !totalStudentsByCourse &&  (
           <p className="text-center">

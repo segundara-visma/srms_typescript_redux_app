@@ -123,107 +123,114 @@ function ExamsGradesFromTutor() {
         </div>
       )}
       {!loading && examsRecords && myCourseList && totalStudentsByExam && (
-        <Tab.Container
-          id="left-tabs-example"
-          defaultActiveKey="0"
-        >
-          <Row>
-            <Col sm={3}>
-              <Nav variant="pills" className="flex-column">
-                {myCourseList.map((course: { name: '', _id: ''}, i: number) => {
-                  return (
-                    <Nav.Item key={i}>
-                      <Nav.Link
-                        eventKey={i}
-                        className="d-flex justify-content-between btn-link px-1"
-                        onClick={() => handleTabChange(i, course._id)}
-                      >
-                        <small>
-                          <b>{course.name}</b>
-                        </small>
-                        <span className="badge">{totalStudentsByExam[i]}</span>
-                      </Nav.Link>
-                    </Nav.Item>
-                  );
-                })}
-              </Nav>
-            </Col>
-            <Col sm={9}>
-              <Tab.Content>
-                {examsRecords.length < 1 && (
-                  <Alert className="text-center">No student on this exam</Alert>
-                )}
-                {examsRecords.length > 0 && (
-                <>
-                  <Table responsive="md" size="md">
-                    <thead>
-                      <tr className="app-table">
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Exam date</th>
-                        <th>Grade</th>
-                        <th>Upload Grade</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {examsRecords.map((s: {firstname: '', lastname: '', examdate: '',grade: '', _id: '', studentid: ''}, i: number) => {
-                        return (
-                          <tr key={i} className="app-table">
-                            <td>
-                              {currentPage > 1
-                                ? (i =
-                                  i +
-                                  1 +
-                                  perPage * currentPage -
-                                  perPage)
-                                : (i = i + 1)}
-                            </td>
-                            <td>{s.firstname}</td>
-                            <td>{s.lastname}</td>
-                            <td>
-                              {format(
-                                new Date(s.examdate),
-                                "yyyy-MM-dd"
-                              )}
-                            </td>
-                            <td className="text-center">{s.grade}</td>
-                            <td className="text-center">
-                              <Button
-                                variant="secondary"
-                                className="btn-secondary"
-                                onClick={() => {
-                                  setGradeModal(true);
-                                  setExamid(s._id);
-                                  setStudentid(s.studentid);
-                                  setRecipientFirstName(s.firstname);
-                                  setRecipientLastName(s.lastname);
-                                }}
-                              >
-                                Add
-                              </Button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                  <div className="d-flex justify-content-between pl-3">
+        <>
+        {myCourseList.length < 1 && (
+          <Alert className="text-center">No course assigned to you at the moment!</Alert>
+        )}
+        {myCourseList.length > 0 && (
+          <Tab.Container
+            id="left-tabs-example"
+            defaultActiveKey="0"
+          >
+            <Row>
+              <Col sm={3}>
+                <Nav variant="pills" className="flex-column">
+                  {myCourseList.map((course: { name: '', _id: ''}, i: number) => {
+                    return (
+                      <Nav.Item key={i}>
+                        <Nav.Link
+                          eventKey={i}
+                          className="d-flex justify-content-between btn-link px-1"
+                          onClick={() => handleTabChange(i, course._id)}
+                        >
+                          <small>
+                            <b>{course.name}</b>
+                          </small>
+                          <span className="badge">{totalStudentsByExam[i]}</span>
+                        </Nav.Link>
+                      </Nav.Item>
+                    );
+                  })}
+                </Nav>
+              </Col>
+              <Col sm={9}>
+                <Tab.Content>
+                  {examsRecords.length < 1 && (
+                    <Alert className="text-center">No student on this exam</Alert>
+                  )}
+                  {examsRecords.length > 0 && (
+                  <>
+                    <Table responsive="md" size="md">
+                      <thead>
+                        <tr className="app-table">
+                          <th>#</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>Exam date</th>
+                          <th>Grade</th>
+                          <th>Upload Grade</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {examsRecords.map((s: {firstname: '', lastname: '', examdate: '',grade: '', _id: '', studentid: ''}, i: number) => {
+                          return (
+                            <tr key={i} className="app-table">
+                              <td>
+                                {currentPage > 1
+                                  ? (i =
+                                    i +
+                                    1 +
+                                    perPage * currentPage -
+                                    perPage)
+                                  : (i = i + 1)}
+                              </td>
+                              <td>{s.firstname}</td>
+                              <td>{s.lastname}</td>
+                              <td>
+                                {format(
+                                  new Date(s.examdate),
+                                  "yyyy-MM-dd"
+                                )}
+                              </td>
+                              <td className="text-center">{s.grade}</td>
+                              <td className="text-center">
+                                <Button
+                                  variant="secondary"
+                                  className="btn-secondary"
+                                  onClick={() => {
+                                    setGradeModal(true);
+                                    setExamid(s._id);
+                                    setStudentid(s.studentid);
+                                    setRecipientFirstName(s.firstname);
+                                    setRecipientLastName(s.lastname);
+                                  }}
+                                >
+                                  Add
+                                </Button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                    <div className="d-flex justify-content-between pl-3">
 
-                    <Pagination
-                      numOfPages={nPages}
-                    />
+                      <Pagination
+                        numOfPages={nPages}
+                      />
 
-                    <Button className="text-right app-variant" disabled>
-                      page <strong>{currentPage}</strong> of{" "}
-                      <strong>{nPages}</strong>
-                    </Button>
-                  </div>
-                </>)}
-              </Tab.Content>
-            </Col>
-          </Row>
-        </Tab.Container>
+                      <Button className="text-right app-variant" disabled>
+                        page <strong>{currentPage}</strong> of{" "}
+                        <strong>{nPages}</strong>
+                      </Button>
+                    </div>
+                  </>)}
+                </Tab.Content>
+              </Col>
+            </Row>
+          </Tab.Container>
+        )}
+      </>
       )}
       {!loading && errorMessage && !examsRecords && !myCourseList && !totalStudentsByExam && (
         <p className="text-center">
