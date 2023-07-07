@@ -40,7 +40,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://lambent-klepon-42cfd1.netlify.app/)
+![Product Screen Shot1][screenshot1]
+
+![Product Screen Shot2][screenshot2]
 
 This project is targeted at deploying a web application that is programmed in order to take care of exam/result and administrative records.
 The system will be available to the tutors with their login information, to record their students’ result online and also be accessible to students in other to check and print/download their result wherever they are using their personal computers, tablets or smart phones. 
@@ -171,4 +173,5 @@ Project Link: [https://github.com/segundara-visma/srms_typescript_redux_app](htt
 [issues-url]: https://github.com/segundara-visma/srms_typescript_redux_app/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/olusegunemmanuelokedara/
-[product-screenshot]: https://github.com/segundara-visma/srms_typescript_redux_app/blob/main/public/srms_1.png?raw=true
+[screenshot1]: https://github.com/segundara-visma/srms_typescript_redux_app/blob/main/public/srms_1.png?raw=true
+[screenshot2]: https://github.com/segundara-visma/srms_typescript_redux_app/blob/main/public/srms_2.png?raw=true
