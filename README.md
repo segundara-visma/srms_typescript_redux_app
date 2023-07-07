@@ -103,9 +103,13 @@ npm install npm@latest -g
 ```sh
 git clone https://github.com/segundara-visma/srms_typescript_redux_app.git
 ```
-2. Install NPM packages
+2. Install project's dependencies
 ```sh
 npm install
+```
+3. Start the development server
+```sh
+npm start
 ```
 
 <!-- DEMO -->
