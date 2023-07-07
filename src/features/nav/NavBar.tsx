@@ -36,7 +36,7 @@ const NavBar = () => {
     }
 
     return (
-        <Container fluid className="py-2 nav-container">
+        <Container fluid className="py-2 nav-container" style={{ height: '7vh' }}>
             <Navbar collapseOnSelect expand="md" variant="dark" className="rounded">
                 <Navbar.Brand>
                     SCHOOL RECORD SYSTEM
