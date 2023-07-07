@@ -38,7 +38,7 @@ const UserData = () => {
     }, [user, currentUserInfo, localuser, localcurrentUserInfo]);
 
     return (
-        <div style={{ height: '100vh' }}>
+        <div>
             {status === 'loading' && (
             <div
                 style={{

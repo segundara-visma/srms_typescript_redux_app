@@ -20,6 +20,8 @@ import { setDepartmentsDetails, setStudentsDetails, setTotalStudents, setNewStud
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { selectAdminDataStatus, selectDepartmentsDetails, selectNewStudent, selectStudentsDetails, selectTotalStudents } from "./adminSlice";
 import { selectErrorMessage } from "../user/userSlice";
+import Header from "../user/PageHeader";
+import SideNav from "../nav/SideNav";
 
 const StudentList = () => {
 
@@ -94,197 +96,209 @@ const StudentList = () => {
   }, [currentPage, perPage, totalStudents, dispatch, nPages, adminStatus, errorMessage, studentsDetails?.length]);
 
   return (
-    <Container className="mt-3" style={{ height: '100vh' }}>
-      <div>
-        {newStudent && newStudent.status === 201 && (
-          <Alert variant="info" onClose={clearNewStudentStatusAlert} dismissible>
-            <strong>Student successfully registered</strong>
-          </Alert>
-        )}
-        {newStudent && newStudent.status && newStudent.status !== 201 && (
-          <Alert variant="danger">
-            <strong>Something went wrong!!!</strong>
-          </Alert>
-        )}
-        {loading && (
-          <div
-            style={{
-              width: "10%",
-              height: "auto",
-              margin: "auto",
-            }}
-          >
-            <Spinner animation="border" variant="dark" />
-          </div>
-        )}
-        {!loading && studentsDetails && (
-          <>
-            <p>
-              <Button variant="secondary" className="btn-secondary" onClick={() => setNewModal(true)}>
-                Register New Student
-              </Button>{" "}
-            </p>
-            <Table responsive="md" size="md">
-              <thead>
-                <tr className="app-table">
-                  <th>#</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Email</th>
-                  <th>Nationality</th>
-                </tr>
-              </thead>
-              <tbody>
-                {studentsDetails.map((student: {email: '', firstname: '', lastname: '', nationality: ''}, i: number) => {
-                  return (
-                    <tr key={i} className="app-table">
-                      <td>
-                        {currentPage > 1
-                          ? (i = i + 1 + perPage * currentPage - perPage)
-                          : (i = i + 1)}
-                      </td>
-                      <td>{student.firstname}</td>
-                      <td>{student.lastname}</td>
-                      <td>{student.email}</td>
-                      <td>{student.nationality}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
-            <div className="d-flex justify-content-between pl-3">
+    <Container fluid>
+      <Row>
+        <Col sm={2} className="border p-0 side-nav-container" style={{ height: '93vh' }}><SideNav/></Col>
+        <Col sm={10}>
+          <Row>
+            <Col><Header/></Col>
+          </Row>
+          <Row>
+            <Col>
+              <div>
+                {newStudent && newStudent.status === 201 && (
+                  <Alert variant="info" onClose={clearNewStudentStatusAlert} dismissible>
+                    <strong>Student successfully registered</strong>
+                  </Alert>
+                )}
+                {newStudent && newStudent.status && newStudent.status !== 201 && (
+                  <Alert variant="danger">
+                    <strong>Something went wrong!!!</strong>
+                  </Alert>
+                )}
+                {loading && (
+                  <div
+                    style={{
+                      width: "10%",
+                      height: "auto",
+                      margin: "auto",
+                    }}
+                  >
+                    <Spinner animation="border" variant="dark" />
+                  </div>
+                )}
+                {!loading && studentsDetails && (
+                  <>
+                    <p>
+                      <Button variant="secondary" className="btn-secondary" onClick={() => setNewModal(true)}>
+                        Register New Student
+                      </Button>{" "}
+                    </p>
+                    <Table responsive="md" size="md">
+                      <thead>
+                        <tr className="app-table">
+                          <th>#</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>Email</th>
+                          <th>Nationality</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {studentsDetails.map((student: {email: '', firstname: '', lastname: '', nationality: ''}, i: number) => {
+                          return (
+                            <tr key={i} className="app-table">
+                              <td>
+                                {currentPage > 1
+                                  ? (i = i + 1 + perPage * currentPage - perPage)
+                                  : (i = i + 1)}
+                              </td>
+                              <td>{student.firstname}</td>
+                              <td>{student.lastname}</td>
+                              <td>{student.email}</td>
+                              <td>{student.nationality}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                    <div className="d-flex justify-content-between pl-3">
 
-              <Pagination
-                numOfPages={nPages}
-              />
+                      <Pagination
+                        numOfPages={nPages}
+                      />
 
-              <Button className="text-right app-variant" disabled>
-                page <strong>{currentPage}</strong> of{" "}
-                <strong>{nPages}</strong>
-              </Button>
-            </div>
-          </>
-        )}
-        {!loading && !studentsDetails && errorMessage && (
-          <p className="text-center">
-            <strong>No information yet</strong>
-          </p>
-        )}
-      </div>
-      <Modal
-        size="lg"
-        show={newModal}
-        onHide={() => setNewModal(false)}
-        aria-labelledby="example-modal-sizes-title-sm"
-        centered
-      >
-        <div className='app-modal'>
-          <Modal.Header closeButton>
-            <Modal.Title id="example-modal-sizes-title-sm">
-              Add New Student
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form className="d-flex flex-column" onSubmit={registerStudent}>
-              <Row>
-                <Col md={6}>
-                  <Form.Group controlId="firstname">
-                    <Form.Label>Firstname</Form.Label>
-                    <Form.Control
-                      type="text"
-                      required={true}
-                      placeholder="What is firstname.."
-                      value={firstname}
-                      onChange={(e) => setFirstname(e.target.value)}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="lastname">
-                    <Form.Label>Lastname</Form.Label>
-                    <Form.Control
-                      type="text"
-                      required={true}
-                      placeholder="What is lastname.."
-                      value={lastname}
-                      onChange={(e) => setLastname(e.target.value)}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="email">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      required={true}
-                      placeholder="Email here.."
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group controlId="dateofbirth">
-                    <Form.Label>Date of Birth</Form.Label>
-                    <Form.Control
-                      type="date"
-                      required={true}
-                      placeholder="Date of Birth..."
-                      value={dateofbirth}
-                      onChange={(e) => setDateofbirth(e.target.value)}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="nationality">
-                    <Form.Label>Nationality</Form.Label>
-                    <Form.Control
-                      type="text"
-                      required={true}
-                      placeholder="Nationality..."
-                      value={nationality}
-                      onChange={(e) => setNationality(e.target.value)}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="password">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      required={true}
-                      placeholder="Password..."
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={12}>
-                  <Form.Group controlId="departments">
-                    <Form.Label>Select Department</Form.Label>
-                    <Form.Control
-                      as="select"
-                      defaultValue=""
-                      required
-                      onChange={getSelectedID}
-                    >
-                      <option></option>
-                      {departmentsDetails && departmentsDetails.map((key, i) => {
-                        return (
-                          <option key={i} value={key._id}>
-                            {key.name}
-                          </option>
-                        );
-                      })}
-                    </Form.Control>
-                  </Form.Group>
-                </Col>
-              </Row>
-              <div className="d-flex justify-content-center mt-3">
-                <Button
-                  className="align-self-center mr-4 btn-secondary"
-                  // variant="warning"
-                  type="submit"
-                >
-                  Add Student
-                </Button>
+                      <Button className="text-right app-variant" disabled>
+                        page <strong>{currentPage}</strong> of{" "}
+                        <strong>{nPages}</strong>
+                      </Button>
+                    </div>
+                  </>
+                )}
+                {!loading && !studentsDetails && errorMessage && (
+                  <p className="text-center">
+                    <strong>No information yet</strong>
+                  </p>
+                )}
               </div>
-            </Form>
-          </Modal.Body>
-          </div>
-      </Modal>
+              <Modal
+                size="lg"
+                show={newModal}
+                onHide={() => setNewModal(false)}
+                aria-labelledby="example-modal-sizes-title-sm"
+                centered
+              >
+                <div className='app-modal'>
+                  <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-sm">
+                      Add New Student
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Form className="d-flex flex-column" onSubmit={registerStudent}>
+                      <Row>
+                        <Col md={6}>
+                          <Form.Group controlId="firstname">
+                            <Form.Label>Firstname</Form.Label>
+                            <Form.Control
+                              type="text"
+                              required={true}
+                              placeholder="What is firstname.."
+                              value={firstname}
+                              onChange={(e) => setFirstname(e.target.value)}
+                            />
+                          </Form.Group>
+                          <Form.Group controlId="lastname">
+                            <Form.Label>Lastname</Form.Label>
+                            <Form.Control
+                              type="text"
+                              required={true}
+                              placeholder="What is lastname.."
+                              value={lastname}
+                              onChange={(e) => setLastname(e.target.value)}
+                            />
+                          </Form.Group>
+                          <Form.Group controlId="email">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control
+                              type="email"
+                              required={true}
+                              placeholder="Email here.."
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                          <Form.Group controlId="dateofbirth">
+                            <Form.Label>Date of Birth</Form.Label>
+                            <Form.Control
+                              type="date"
+                              required={true}
+                              placeholder="Date of Birth..."
+                              value={dateofbirth}
+                              onChange={(e) => setDateofbirth(e.target.value)}
+                            />
+                          </Form.Group>
+                          <Form.Group controlId="nationality">
+                            <Form.Label>Nationality</Form.Label>
+                            <Form.Control
+                              type="text"
+                              required={true}
+                              placeholder="Nationality..."
+                              value={nationality}
+                              onChange={(e) => setNationality(e.target.value)}
+                            />
+                          </Form.Group>
+                          <Form.Group controlId="password">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                              type="password"
+                              required={true}
+                              placeholder="Password..."
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={12}>
+                          <Form.Group controlId="departments">
+                            <Form.Label>Select Department</Form.Label>
+                            <Form.Control
+                              as="select"
+                              defaultValue=""
+                              required
+                              onChange={getSelectedID}
+                            >
+                              <option></option>
+                              {departmentsDetails && departmentsDetails.map((key, i) => {
+                                return (
+                                  <option key={i} value={key._id}>
+                                    {key.name}
+                                  </option>
+                                );
+                              })}
+                            </Form.Control>
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <div className="d-flex justify-content-center mt-3">
+                        <Button
+                          className="align-self-center mr-4 btn-secondary"
+                          // variant="warning"
+                          type="submit"
+                        >
+                          Add Student
+                        </Button>
+                      </div>
+                    </Form>
+                  </Modal.Body>
+                  </div>
+              </Modal>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     </Container>
   );
 };

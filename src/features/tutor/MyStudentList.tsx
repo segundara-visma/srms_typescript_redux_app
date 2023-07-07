@@ -23,6 +23,8 @@ import { setEmailService, clearEmailService, setTotalStudentsByCourse, setMyStud
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { selectEmailService, selectMyCourseList, selectMyStudentsList, selectTotalStudentsByCourse } from "./tutorSlice";
 import { selectErrorMessage } from "../user/userSlice";
+import Header from "../user/PageHeader";
+import SideNav from "../nav/SideNav";
 
 const StudentList = () => {
   const [tab, setTab] = useState(0);
@@ -116,200 +118,212 @@ const StudentList = () => {
   }, [currentPage, perPage, userID, totalStudentsByCourse, dispatch, tab, tabSwitched, courseID, myStudentsList?.length, myCourseList?.length, errorMessage]);
 
   return (
-    <Container className="mt-3" style={{ height: '100vh' }}>
-      <div>
-        {emailService && emailService.status === 200 && (
-          <Alert variant="info" onClose={clearEmailAlert} dismissible>
-            <strong>Message sent successfully!!!</strong>
-          </Alert>
-        )}
-        {emailService && emailService.status && emailService.status !== 200 && (
-          <Alert variant="danger">
-            <strong>Problem ecountered while trying to send your message!!!</strong>
-          </Alert>
-        )}
-      </div>
-      <div>
-        {loading && (
-          <div
-            style={{
-              width: "10%",
-              height: "auto",
-              margin: "auto",
-            }}
-          >
-            <Spinner animation="border" variant="dark" />
-          </div>
-        )}
-        {!loading && !myStudentsList && (
-          <Alert className="text-center">No record found!</Alert>
-        )}
-        {!loading && myStudentsList && myCourseList  && totalStudentsByCourse && (
-          <>
-            {myStudentsList.length > 0 && (
-            <>
-              <Tab.Container
-                id="left-tabs-example"
-                defaultActiveKey="0"
-              >
-                <Row>
-                  <Col sm={3}>
-                    <Nav variant="pills" className="flex-column">
-                      {myCourseList.map((course: { name: '', _id: ''}, i: number) => {
-                        return (
-                          <Nav.Item key={i}>
-                            <Nav.Link
-                              eventKey={i}
-                              className="d-flex justify-content-between btn-link px-1"
-                              onClick={() => handleTabChange(i, course._id)}
-                            >
-                              <small>
-                                <b>{course.name}</b>
-                              </small>
-                              <span className="badge">{totalStudentsByCourse[i]}</span>
-                            </Nav.Link>
-                          </Nav.Item>
-                        );
-                      })}
-                    </Nav>
-                  </Col>
-                  <Col sm={9}>
-                    <Tab.Content>
-                      {myStudentsList.length < 1 && (
-                        <Alert className="text-center">No student on this course</Alert>
-                      )}
-                      {myStudentsList.length > 0 && (
-                      <>
-                        <Table responsive="md" size="md">
-                          <thead>
-                            <tr className="app-table">
-                              <th>#</th>
-                              <th>First Name</th>
-                              <th>Last Name</th>
-                              <th>Message</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {myStudentsList.map((s: {firstname: '', lastname: '', email: ''}, i: number) => {
-                              return (
-                                <tr key={i} className="app-table">
-                                  <td>
-                                    {currentPage > 1
-                                      ? (i =
-                                        i +
-                                        1 +
-                                        perPage * currentPage -
-                                        perPage)
-                                      : (i = i + 1)}
-                                  </td>
-                                  <td>{s.firstname}</td>
-                                  <td>{s.lastname}</td>
-                                  <td className="text-center">
-                                    <Button
-                                      className="btn-secondary"
-                                      onClick={() => setEmailProcess(s)}
-                                    >
-                                      <FontAwesomeIcon icon={faEnvelope} />
-                                    </Button>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </Table>
-                        <div className="d-flex justify-content-between pl-3">
-
-                          <Pagination
-                            numOfPages={nPages}
-                          />
-
-                          <Button className="text-right app-variant" disabled>
-                            page <strong>{currentPage}</strong> of{" "}
-                            <strong>{nPages}</strong>
-                          </Button>
-                        </div>
-                      </>)}
-                    </Tab.Content>
-                  </Col>
-                </Row>
-              </Tab.Container>
-            </>
-          )}
-          </>
-        )}
-        {!loading && errorMessage && !myStudentsList && !myCourseList  && !totalStudentsByCourse &&  (
-          <p className="text-center">
-            <strong>No record at the moment!</strong>
-          </p>
-        )}
-      </div>
-      <Modal
-        size="lg"
-        show={emailModal}
-        onHide={() => setEmailModal(false)}
-        aria-labelledby="example-modal-sizes-title-sm"
-        centered
-      >
-        <div className='app-modal'>
-          <Modal.Header closeButton>
-            <Modal.Title id="example-modal-sizes-title-sm">
-              Sending Email To {recipientFirstName} {recipientLastName}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form
-              className="d-flex flex-column"
-              onSubmit={sendEmail}
-            >
-              <Row>
-                <Col md={12}>
-                  <Form.Group controlId="subject">
-                    <Form.Label>
-                      Subject
-                  </Form.Label>
-                    <Form.Control
-                      type="text"
-                      required={true}
-                      placeholder="Enter Subject"
-                      value={emailSubject}
-                      onChange={(e) =>
-                        setEmailSubject(
-                          e.target.value
-                        )
-                      }
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="content">
-                    <Form.Label>
-                      Content
-                  </Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      required={true}
-                      placeholder="Enter Content"
-                      value={emailContent}
-                      onChange={(e) =>
-                        setEmailContent(
-                          e.target.value
-                        )
-                      }
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <div className="d-flex justify-content-center mt-3">
-                <Button
-                  className="align-self-center mr-4 btn-secondary"
-                  type="submit"
-                >
-                  Send
-              </Button>
+    <Container fluid>
+      <Row>
+        <Col sm={2} className="border p-0 side-nav-container" style={{ height: '93vh' }}><SideNav/></Col>
+        <Col sm={10}>
+          <Row>
+            <Col><Header/></Col>
+          </Row>
+          <Row>
+            <Col>
+              <div>
+                {emailService && emailService.status === 200 && (
+                  <Alert variant="info" onClose={clearEmailAlert} dismissible>
+                    <strong>Message sent successfully!!!</strong>
+                  </Alert>
+                )}
+                {emailService && emailService.status && emailService.status !== 200 && (
+                  <Alert variant="danger">
+                    <strong>Problem ecountered while trying to send your message!!!</strong>
+                  </Alert>
+                )}
               </div>
-            </Form>
-          </Modal.Body>
-        </div>
-      </Modal>
+              <div>
+                {loading && (
+                  <div
+                    style={{
+                      width: "10%",
+                      height: "auto",
+                      margin: "auto",
+                    }}
+                  >
+                    <Spinner animation="border" variant="dark" />
+                  </div>
+                )}
+                {!loading && !myStudentsList && (
+                  <Alert className="text-center">No record found!</Alert>
+                )}
+                {!loading && myStudentsList && myCourseList  && totalStudentsByCourse && (
+                  <>
+                    {myStudentsList.length > 0 && (
+                    <>
+                      <Tab.Container
+                        id="left-tabs-example"
+                        defaultActiveKey="0"
+                      >
+                        <Row>
+                          <Col sm={3}>
+                            <Nav variant="pills" className="flex-column">
+                              {myCourseList.map((course: { name: '', _id: ''}, i: number) => {
+                                return (
+                                  <Nav.Item key={i}>
+                                    <Nav.Link
+                                      eventKey={i}
+                                      className="d-flex justify-content-between btn-link px-1"
+                                      onClick={() => handleTabChange(i, course._id)}
+                                    >
+                                      <small>
+                                        <b>{course.name}</b>
+                                      </small>
+                                      <span className="badge">{totalStudentsByCourse[i]}</span>
+                                    </Nav.Link>
+                                  </Nav.Item>
+                                );
+                              })}
+                            </Nav>
+                          </Col>
+                          <Col sm={9}>
+                            <Tab.Content>
+                              {myStudentsList.length < 1 && (
+                                <Alert className="text-center">No student on this course</Alert>
+                              )}
+                              {myStudentsList.length > 0 && (
+                              <>
+                                <Table responsive="md" size="md">
+                                  <thead>
+                                    <tr className="app-table">
+                                      <th>#</th>
+                                      <th>First Name</th>
+                                      <th>Last Name</th>
+                                      <th>Message</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {myStudentsList.map((s: {firstname: '', lastname: '', email: ''}, i: number) => {
+                                      return (
+                                        <tr key={i} className="app-table">
+                                          <td>
+                                            {currentPage > 1
+                                              ? (i =
+                                                i +
+                                                1 +
+                                                perPage * currentPage -
+                                                perPage)
+                                              : (i = i + 1)}
+                                          </td>
+                                          <td>{s.firstname}</td>
+                                          <td>{s.lastname}</td>
+                                          <td className="text-center">
+                                            <Button
+                                              className="btn-secondary"
+                                              onClick={() => setEmailProcess(s)}
+                                            >
+                                              <FontAwesomeIcon icon={faEnvelope} />
+                                            </Button>
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                  </tbody>
+                                </Table>
+                                <div className="d-flex justify-content-between pl-3">
+
+                                  <Pagination
+                                    numOfPages={nPages}
+                                  />
+
+                                  <Button className="text-right app-variant" disabled>
+                                    page <strong>{currentPage}</strong> of{" "}
+                                    <strong>{nPages}</strong>
+                                  </Button>
+                                </div>
+                              </>)}
+                            </Tab.Content>
+                          </Col>
+                        </Row>
+                      </Tab.Container>
+                    </>
+                  )}
+                  </>
+                )}
+                {!loading && errorMessage && !myStudentsList && !myCourseList  && !totalStudentsByCourse &&  (
+                  <p className="text-center">
+                    <strong>No record at the moment!</strong>
+                  </p>
+                )}
+              </div>
+              <Modal
+                size="lg"
+                show={emailModal}
+                onHide={() => setEmailModal(false)}
+                aria-labelledby="example-modal-sizes-title-sm"
+                centered
+              >
+                <div className='app-modal'>
+                  <Modal.Header closeButton>
+                    <Modal.Title id="example-modal-sizes-title-sm">
+                      Sending Email To {recipientFirstName} {recipientLastName}
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Form
+                      className="d-flex flex-column"
+                      onSubmit={sendEmail}
+                    >
+                      <Row>
+                        <Col md={12}>
+                          <Form.Group controlId="subject">
+                            <Form.Label>
+                              Subject
+                          </Form.Label>
+                            <Form.Control
+                              type="text"
+                              required={true}
+                              placeholder="Enter Subject"
+                              value={emailSubject}
+                              onChange={(e) =>
+                                setEmailSubject(
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group controlId="content">
+                            <Form.Label>
+                              Content
+                          </Form.Label>
+                            <Form.Control
+                              as="textarea"
+                              rows={3}
+                              required={true}
+                              placeholder="Enter Content"
+                              value={emailContent}
+                              onChange={(e) =>
+                                setEmailContent(
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <div className="d-flex justify-content-center mt-3">
+                        <Button
+                          className="align-self-center mr-4 btn-secondary"
+                          type="submit"
+                        >
+                          Send
+                      </Button>
+                      </div>
+                    </Form>
+                  </Modal.Body>
+                </div>
+              </Modal>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     </Container>
   );
 };

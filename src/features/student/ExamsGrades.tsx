@@ -4,7 +4,9 @@ import {
   Button,
   Spinner,
   Container,
-  Alert
+  Alert,
+  Row,
+  Col
 } from "react-bootstrap";
 import "../../commonStyle/style.scss";
 import Pagination from "../pagination/Pagination";
@@ -16,6 +18,8 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { setExamsDetails, setTotalExams, downloadPDF } from "../../actions/studentData";
 import { selectExamsDeatils, selectTotalExams } from "./studentSlice";
 import { selectErrorMessage } from "../user/userSlice";
+import Header from "../user/PageHeader";
+import SideNav from "../nav/SideNav";
 
 const ExamsGrades = () => {
   const [loading, setLoading] = useState(false);
@@ -55,83 +59,95 @@ const ExamsGrades = () => {
   }, [currentPage, perPage, totalExams, dispatch, nPages, localcurrentUserInfo._id, errorMessage, examsDetails?.length]);
 
   return (
-    <Container className="mt-3" style={{ height: '100vh' }}>
-      <div>
-        {loading && (
-          <div
-            style={{
-              width: "10%",
-              height: "auto",
-              margin: "auto",
-            }}
-          >
-            <Spinner animation="border" variant="dark" />
-          </div>
-        )}
-        {!loading && downloadStatus && (<RecordsPDF />)}
-        {!loading && examsDetails && (
-          <>
-            {examsDetails.length < 1 && (
-              <Alert className="text-center">You have not registered for any exam yet!</Alert>
-            )}
-            {examsDetails.length > 0 && (
-              <>
-                <p>
-                  <Button className="btn-secondary" onClick={getPDF}>
-                    Download Transcript
-                  </Button>{" "}
-                </p>
-                <Table responsive="md" size="md">
-                  <thead>
-                    <tr className="app-table">
-                      <th>#</th>
-                      <th>Course Name</th>
-                      <th>Description</th>
-                      <th>Semester</th>
-                      <th>Exam Date</th>
-                      <th>Grade</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {examsDetails.length > 0 && examsDetails.map((course: {name: '', description: '', semester: '', examdate: '', grade: ''}, i: number) => {
-                      return (
-                        <tr key={i} className="app-table">
-                          <td>
-                            {currentPage > 1
-                              ? (i = i + 1 + perPage * currentPage - perPage)
-                              : (i = i + 1)}
-                          </td>
-                          <td>{course.name}</td>
-                          <td>{course.description}</td>
-                          <td>{course.semester}</td>
-                          <td>{course.examdate.slice(0, 10)}</td>
-                          <td>{course.grade}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
-                <div className="d-flex justify-content-between pl-3">
+    <Container fluid>
+      <Row>
+        <Col sm={2} className="border p-0 side-nav-container" style={{ height: '93vh' }}><SideNav/></Col>
+        <Col sm={10}>
+          <Row>
+            <Col><Header/></Col>
+          </Row>
+          <Row>
+            <Col>
+              <div>
+                {loading && (
+                  <div
+                    style={{
+                      width: "10%",
+                      height: "auto",
+                      margin: "auto",
+                    }}
+                  >
+                    <Spinner animation="border" variant="dark" />
+                  </div>
+                )}
+                {!loading && downloadStatus && (<RecordsPDF />)}
+                {!loading && examsDetails && (
+                  <>
+                    {examsDetails.length < 1 && (
+                      <Alert className="text-center">You have not registered for any exam yet!</Alert>
+                    )}
+                    {examsDetails.length > 0 && (
+                      <>
+                        <p>
+                          <Button className="btn-secondary" onClick={getPDF}>
+                            Download Transcript
+                          </Button>{" "}
+                        </p>
+                        <Table responsive="md" size="md">
+                          <thead>
+                            <tr className="app-table">
+                              <th>#</th>
+                              <th>Course Name</th>
+                              <th>Description</th>
+                              <th>Semester</th>
+                              <th>Exam Date</th>
+                              <th>Grade</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {examsDetails.length > 0 && examsDetails.map((course: {name: '', description: '', semester: '', examdate: '', grade: ''}, i: number) => {
+                              return (
+                                <tr key={i} className="app-table">
+                                  <td>
+                                    {currentPage > 1
+                                      ? (i = i + 1 + perPage * currentPage - perPage)
+                                      : (i = i + 1)}
+                                  </td>
+                                  <td>{course.name}</td>
+                                  <td>{course.description}</td>
+                                  <td>{course.semester}</td>
+                                  <td>{course.examdate.slice(0, 10)}</td>
+                                  <td>{course.grade}</td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </Table>
+                        <div className="d-flex justify-content-between pl-3">
 
-                  <Pagination
-                    numOfPages={nPages}
-                  />
+                          <Pagination
+                            numOfPages={nPages}
+                          />
 
-                  <Button className="text-right app-variant" disabled>
-                    page <strong>{currentPage}</strong> of{" "}
-                    <strong>{nPages}</strong>
-                  </Button>
-                </div>
-              </>
-            )}
-          </>
-        )}
-        {!loading && !examsDetails && errorMessage && (
-          <div className="text-center">
-            <strong>No record at the moment</strong>
-          </div>
-        )}
-      </div>
+                          <Button className="text-right app-variant" disabled>
+                            page <strong>{currentPage}</strong> of{" "}
+                            <strong>{nPages}</strong>
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
+                {!loading && !examsDetails && errorMessage && (
+                  <div className="text-center">
+                    <strong>No record at the moment</strong>
+                  </div>
+                )}
+              </div>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
     </Container>
   );
 };
