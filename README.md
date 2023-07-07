@@ -171,4 +171,4 @@ Project Link: [https://github.com/segundara-visma/srms_typescript_redux_app](htt
 [issues-url]: https://github.com/segundara-visma/srms_typescript_redux_app/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/olusegunemmanuelokedara/
-[product-screenshot]: https://github.com/segundara-visma/srms_typescript_redux_app/blob/main/public/srms_1.PNG
+[product-screenshot]: https://github.com/segundara-visma/srms_typescript_redux_app/blob/main/public/srms_1.png?raw=true
