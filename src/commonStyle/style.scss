@@ -6,12 +6,58 @@
 // $mynewcolor: #504c8a;
 $mynewcolor: #6c63ff;
 
+body {
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: large;
+}
+body {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Noto Serif", serif;
+  }
+}
+
+.nav-container{
+  background: rgb(108,99,255);
+  background: linear-gradient(90deg, rgba(108,99,255,1) 0%, rgba(92,33,203,1) 100%);
+  min-height: 10vh;
+  // position: relative;
+
+  .nav-content{
+    margin: 0 20%;
+
+    button{
+      display: none;
+    }
+
+    .show{
+      display: block;
+
+      .loginBtn{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        img{
+          border: 1px solid #6c63ff;
+          width: 2rem;
+          height: 2rem;
+        }
+        .nav-user{
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
 .jumbo {
   margin-top: 0px;
   padding-top: 0px;
-  background-image: url("../images/welcome.png");
-  background-size: cover;
-  background-position: center;
   height: 100vh;
   font-family: "Noto Sans TC", sans-serif;
   font-size: 2.2rem;
@@ -22,35 +68,21 @@ $mynewcolor: #6c63ff;
   }
 }
 
-.loginBtn {
-  margin-left: auto;
+.pagination-container{
+  display: flex;
+  flex-direction: column;
 }
 
-.nav-container{
-  background: rgb(108,99,255);
-  background: linear-gradient(90deg, rgba(108,99,255,1) 0%, rgba(92,33,203,1) 100%);
-}
-.side-nav-container{
-  background: #fff;
-  // background: rgb(108,99,255);
-  // background: linear-gradient(120deg, rgba(108,99,255,1) 0%, rgba(92,33,203,1) 100%);
-}
 .link:hover {
   background:#f8f9fa;
 }
 .link:last-child {
-  // border-top: 1px solid;
   border-bottom: 1px solid;
   line-height: 2rem;
 }
 .link {
   border-top: 1px solid;
-  // border-bottom: 1px solid;
   line-height: 2rem;
-}
-.nav{
-  max-width: 1125px;
-  margin: auto;
 }
 .nav-brand{
   text-decoration: none;
@@ -95,43 +127,6 @@ $mynewcolor: #6c63ff;
     $mynewcolor
   );
 }
-
-body {
-  font-family: "Noto Sans TC", sans-serif;
-  font-size: large;
-}
-body {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: "Noto Serif", serif;
-  }
-}
-
-// .accordion-card {
-//   // border: 1px solid rgb(108, 99, 255) !important;
-//   border: 0 !important;
-//   // border-radius: 10px !important;
-//   padding: 0px !important;
-//   margin-bottom: 1px;
-
-//   & > div:first-of-type {
-//     background: linear-gradient(
-//       90deg,
-//       rgb(108, 99, 255) 0%,
-//       rgb(92, 33, 203) 100%
-//     );
-//   }
-
-//   .card-body {
-//     border-left: 1px solid #dee2e6;
-//     border-right: 1px solid #dee2e6;
-//     border-bottom: 1px solid #dee2e6;
-//   }
-// }
 
 .img-fluid {
   border: 5px solid #6c63ff;
@@ -236,8 +231,212 @@ table thead {
   font-size: 1rem;
 }
 
-@media (min-width: 991.98px) {
+@media (max-width: 1200px) {
+
+  .jumbo {
+    margin-top: 0px;
+    padding-top: 0px;
+    height: 60vh;
+    font-family: "Noto Sans TC", sans-serif;
+    font-size: 1.5rem;
+    position: relative;
+  
+    .jumbo-content{
+      width: 80%;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+@media (min-width: 1201px) {
+
+  .jumbo {
+    margin-top: 0px;
+    padding-top: 0px;
+    background-image: url("../images/welcome.png");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    font-family: "Noto Sans TC", sans-serif;
+    font-size: 2.2rem;
+    width: 100%;
+    position: relative;
+  
+    .jumbo-content{
+      width: 80%;
+      margin: 0;
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+@media (min-width: 768px) {
+
+  .nav-container{
+    background: rgb(108,99,255);
+    background: linear-gradient(90deg, rgba(108,99,255,1) 0%, rgba(92,33,203,1) 100%);
+    height: 7vh;
+    position: relative;
+    z-index: 999;
+  
+    .nav-content{
+      margin: 0;
+      // position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+  
+      .loginBtn{
+        display: flex;
+        margin-left: auto;
+      }
+    }
+  }
+
   .pageTitle{
     font-size: 1.2rem;
+  }
+
+  .pagination-container{
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+/* SideBar styling*/
+.wrapper{
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background-color: rgb(108,99,255);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 5%;
+}
+#sidebarCollapse{
+  position: absolute;
+  top: .5rem;
+  right: 1.3rem;
+  color: #e9e9ea;
+}
+#sidebar{
+  height: inherit;
+  margin: 2rem;
+  text-align: left;
+}
+#sidebar ul li a{
+  margin-left: .5rem;
+  color: #e9e9ea;
+}
+#sidebar .list-item{
+  margin: 2rem 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+#sidebar li a{
+  text-decoration: none;
+  padding-left: .5rem;
+}
+.icon-color{
+  color: #738a9b;
+}
+.btn-custom{
+  background-color: #c4b9b9;
+  border-radius: 50%;
+  color: #215cad;
+  font-weight: 600;
+}
+.sidebar-header{
+  margin-top: 4rem;
+  text-align: center;
+  color: #e9e9ea;
+}
+.usr-image{
+border: 2px solid white;
+}
+.collapse{
+display: none;
+}
+#sidebar.active .sidebar-header h3 {
+display: none;
+}
+#sidebar ul li a {
+text-align: left;
+}
+#sidebar.active ul li a {
+display: none;
+}
+#sidebar.active ul li i {
+display: block;
+}
+.hidden{
+display: none;
+}
+
+@media (max-width: 768px) {
+#sidebar.active {
+  width: 50px;
+  text-align: center;
+  margin: 0;
+}
+#sidebar {
+  margin: 1rem;
+}
+#sidebarCollapse{
+  right: .5rem;
+}
+#sidebar.active .sidebar-header h3 {
+  display: none;
+}
+}
+
+@media (min-width: 768px) {
+  #sidebar.active .sidebar-header h3 {
+    display: block; /* display on big screen */
+  }
+  #sidebar.active ul li a {
+    display: block; /* display on big screen */
+  }
+  #sidebarCollapse{
+    display: none;
+  }
+  .wrapper div button{
+      display: none;
+  }
+  .wrapper{
+      width: 15%;
+      padding-top: 5%;
+  }
+}
+
+@media (min-width: 913px) {
+  #sidebar.active .sidebar-header h3 {
+    display: block; /* display on big screen */
+  }
+  #sidebar.active ul li a {
+    display: block; /* display on big screen */
+  }
+  #sidebarCollapse{
+    display: none;
+  }
+  .wrapper div button{
+      display: none;
+  }
+  .wrapper{
+      width: 15%;
+      padding-top: 1%;
   }
 }

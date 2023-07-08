@@ -11,7 +11,7 @@ const WelcomePage = () => {
             {loggedIn ? <Navigate to="/profile"/>
                 :(
                     <div className="jumbo text-center">
-                        <p className="d-flex flex-column">
+                        <p className="d-flex flex-column jumbo-content">
                             <span>Welcome to the School Portal.</span>
                             <span>Login details can be found in <a href="https://cloudy-blue-lion.cyclic.app/api-docs">api-docs</a></span>
                             <span>

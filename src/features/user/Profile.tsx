@@ -39,8 +39,8 @@ const Profile = () => {
         <>
           <Container fluid>
             <Row>
-              <Col sm={2} className="border p-0 side-nav-container" style={{ height: '93vh' }}><SideNav/></Col>
-              <Col sm={10}>
+              <Col xs={2}><SideNav/></Col>
+              <Col xs={9}>
                 <Row>
                   <Col><Header/></Col>
                 </Row>

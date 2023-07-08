@@ -98,8 +98,8 @@ const StudentList = () => {
   return (
     <Container fluid>
       <Row>
-        <Col sm={2} className="border p-0 side-nav-container" style={{ height: '93vh' }}><SideNav/></Col>
-        <Col sm={10}>
+        <Col xs={2}><SideNav/></Col>
+        <Col xs={9}>
           <Row>
             <Col><Header/></Col>
           </Row>
@@ -162,7 +162,7 @@ const StudentList = () => {
                         })}
                       </tbody>
                     </Table>
-                    <div className="d-flex justify-content-between pl-3">
+                    <div className="d-flex justify-content-between pl-3 pagination-container">
 
                       <Pagination
                         numOfPages={nPages}
