@@ -6,6 +6,7 @@ import { loginErrorMessage,
     loginSuccess,
     logoutSuccess
 } from "../features/login/loginSlice";
+import { fetchMe } from "./fetch_Me";
 
 type loginType = {
     email: string,
@@ -17,7 +18,15 @@ export const login = ({email, password}: loginType) => (dispatch = useAppDispatc
         (data) => {
             dispatch(loginSuccess(data))
 
-            return Promise.resolve();
+            setTimeout(() => {
+                const loggedInTitle = localStorage.getItem("userTitle")
+                if(loggedInTitle) {
+                    dispatch(fetchMe(JSON.parse(loggedInTitle)))
+                }
+
+                return Promise.resolve();
+
+            }, 2000);
         },
         (error) => {
             const message =

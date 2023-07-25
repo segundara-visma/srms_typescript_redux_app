@@ -44,6 +44,7 @@ const Logout = () => {
     useEffect(() => {
 
         const logOut = () => {
+            localStorage.clear();
             dispatch(logout());
             // dispatch(clearMe());
             // dispatch(clearMessage());
@@ -74,7 +75,6 @@ const Logout = () => {
             // dispatch(clearStudentsDetails());
 
             navigate('/');
-            localStorage.clear();
         };
 
         logOut()

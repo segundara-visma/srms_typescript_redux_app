@@ -10,31 +10,23 @@ import {
 import "../../commonStyle/style.scss";
 import { format } from "date-fns";
 
-import { useAppSelector } from '../../app/hooks';
-import { LoginState, selectValue } from "../login/loginSlice";
-import { selectMe, UserState } from "../user/userSlice";
+import { UserState } from "../user/userSlice";
 import ProfileUpdate from "../user/ProfileUpdate";
-import { selectErrorMessage } from "../user/userSlice";
 
 const StudentDetail = () => {
   const [loading, setLoading] = useState(false);
-
-  const [userTitle, setUserTitle] = useState<LoginState['value']>();
   const [currentUser, setCurrentUser] = useState<UserState['me']>();
-
-  const user = useAppSelector(selectValue);
-  const info = useAppSelector(selectMe);
-  const errorMessage = useAppSelector(selectErrorMessage);
 
   useEffect(() => {
     setLoading(true)
-    setUserTitle(user)
-    setCurrentUser(info)
-
-    if (currentUser?.firstname || errorMessage) {
-      setLoading(false)
+    const localcurrent = localStorage.getItem('currentUser')
+    if (localcurrent) {
+        const currentUser = JSON.parse(localcurrent)
+        setCurrentUser(currentUser)
     }
-  }, [currentUser, userTitle, user, info, errorMessage]);
+
+    setLoading(false)
+  }, []);
 
   return (
     <>
@@ -125,7 +117,7 @@ const StudentDetail = () => {
           </Row>
         </>
       )}
-      {!loading && !currentUser && errorMessage && (
+      {!loading && !currentUser && (
         <p className="text-center">
           <strong>Encountered problem while trying to load the page!</strong>
         </p>

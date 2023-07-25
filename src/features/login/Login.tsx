@@ -7,12 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
 import { login } from "../../actions/auth";
-import { Spinner } from "react-bootstrap";
-import { loggedInStatus, selectValue } from "./loginSlice";
-import Profile from "../user/Profile";
-// import { selectMe } from "../user/userSlice";
-
-import { fetchMe } from "../../actions/fetch_Me";
+import { Alert, Spinner } from "react-bootstrap";
+import { authError } from "./loginSlice";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -25,10 +21,8 @@ const Login = () => {
 
   let navigate = useNavigate();
 
-  const isLoggedIn = useAppSelector(loggedInStatus);
-  const userTitle = useAppSelector(selectValue)
-
   const dispatch = useAppDispatch();
+  const error = useAppSelector(authError)
 
   const getEmail = () => {
     setEmail(`${emailInputRef.current?.value}`);
@@ -43,24 +37,18 @@ const Login = () => {
 
     if (email && password) {
       dispatch(login({email, password}))
-        .then(() => {
-          console.log('success!!!!!!!!')
+      setTimeout(() => {
+        const user = localStorage.getItem('userTitle')
+        if (user) {
           navigate("/profile");
-        })
-        .catch(() => {
-          setLoading(false);
-        });
+        } else {
+          setLoading(false)
+        }
+      }, 5000);
     } else {
       setLoading(false);
     }
   };
-
-  if (isLoggedIn) {
-    dispatch(fetchMe(userTitle))
-    console.log('logedInUser =', userTitle)
-    console.log('logedIn')
-    return <Profile />;
-  }
 
   return (
     <div className="base-container" style={{ height: '100vh' }}>
@@ -117,16 +105,9 @@ const Login = () => {
         </>
       )}
 
-      {/* {message && (
-        <div className="form-group">
-          <div className="alert alert-danger" role="alert">
-            <strong>Email and password do not match!</strong>
-          </div>
-        </div>
-      )} */}
-      {/* <Alert variant="danger" show={failure} className="mt-3">
+      <Alert variant="danger" show={!!error} className="mt-3">
         <strong>Please check your email or password!</strong>
-      </Alert> */}
+      </Alert>
     </div>
   );
 

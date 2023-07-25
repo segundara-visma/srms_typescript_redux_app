@@ -9,30 +9,23 @@ import {
 
 import "../../commonStyle/style.scss";
 
-import { useAppSelector } from '../../app/hooks';
-import { LoginState, selectValue } from "../login/loginSlice";
-import { selectMe, UserState, selectErrorMessage } from "../user/userSlice";
+import { UserState } from "../user/userSlice";
 import ProfileUpdate from "../user/ProfileUpdate";
 
 const TutorDetail = () => {
   const [loading, setLoading] = useState(false);
-
-  const [userTitle, setUserTitle] = useState<LoginState['value']>();
   const [currentUser, setCurrentUser] = useState<UserState['me']>();
-
-  const user = useAppSelector(selectValue);
-  const info = useAppSelector(selectMe);
-  const errorMessage = useAppSelector(selectErrorMessage);
 
   useEffect(() => {
     setLoading(true)
-    setUserTitle(user)
-    setCurrentUser(info)
-
-    if (currentUser?.firstname || errorMessage) {
-      setLoading(false)
+    const localcurrent = localStorage.getItem('currentUser')
+    if (localcurrent) {
+      const currentUser = JSON.parse(localcurrent)
+      setCurrentUser(currentUser)
     }
-  }, [currentUser, userTitle, user, info, errorMessage]);
+
+    setLoading(false)
+  }, []);
 
   return (
     <>
@@ -106,7 +99,7 @@ const TutorDetail = () => {
           </Row>
         </>
       )}
-      {!loading && !currentUser && errorMessage && (
+      {!loading && !currentUser && (
         <p className="text-center">
           <strong>Encountered problem while trying to load the page!</strong>
         </p>

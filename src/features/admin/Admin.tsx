@@ -9,33 +9,23 @@ import {
 import ProfileUpdate from "../user/ProfileUpdate";
 import "../../commonStyle/style.scss";
 
-import { useAppSelector } from '../../app/hooks';
-import { LoginState, selectValue } from "../login/loginSlice";
-import { selectMe, UserState } from "../user/userSlice";
-import { selectAdminDataStatus } from "./adminSlice";
-import { selectErrorMessage } from "../user/userSlice";
+import { UserState } from "../user/userSlice";
 
 const AdminDetail = () => {
 
   const [loading, setLoading] = useState(false);
-
-  const [userTitle, setUserTitle] = useState<LoginState['value']>();
   const [currentUser, setCurrentUser] = useState<UserState['me']>();
-
-  const user = useAppSelector(selectValue);
-  const info = useAppSelector(selectMe);
-  const errorMessage = useAppSelector(selectErrorMessage);
-  const adminStatus = useAppSelector(selectAdminDataStatus);
 
   useEffect(() => {
     setLoading(true)
-    setUserTitle(user)
-    setCurrentUser(info)
-
-    if (currentUser?.firstname || errorMessage) {
-      setLoading(false)
+    const localcurrent = localStorage.getItem('currentUser')
+    if (localcurrent) {
+      const currentUser = JSON.parse(localcurrent)
+      setCurrentUser(currentUser)
     }
-  }, [currentUser, userTitle, user, info, errorMessage, adminStatus]);
+
+    setLoading(false)
+  }, []);
 
   return (
     <>
@@ -109,7 +99,7 @@ const AdminDetail = () => {
           </Row>
         </>
       )}
-      {!loading && !currentUser && errorMessage && (
+      {!loading && !currentUser && (
         <p className="text-center">
           <strong>Encountered problem while trying to load the page!</strong>
         </p>

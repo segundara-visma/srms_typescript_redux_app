@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks'
@@ -15,7 +15,17 @@ const SideNav = () => {
   const loggedInTitle = title && JSON.parse(title)
 
   const meInfo = useAppSelector(selectMe)
-  const [currentUserInfo] = useState<UserState['me']>(meInfo)
+  const [currentUserInfo, setCurrentUserInfo] = useState<UserState['me']>(meInfo)
+
+  useEffect(() => {
+
+      const localcurrent = localStorage.getItem('currentUser')
+      if (localcurrent) {
+          const currentUser = JSON.parse(localcurrent)
+          setCurrentUserInfo(currentUser)
+      }
+  }, [meInfo])
+
   return (
     <div>
       <div className="wrapper">

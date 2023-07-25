@@ -24,6 +24,7 @@ export const loginSlice = createSlice({
     loginSuccess: (state, action: PayloadAction<string>) => {
       state.value = action.payload;
       state.isLoggedIn = true;
+      localStorage.setItem('userTitle', JSON.stringify(action.payload));
     },
     loginFailure: (state) => {
       state.status = 'failed';
@@ -48,5 +49,6 @@ export const { loginSuccess, loginFailure, loginErrorMessage, logoutSuccess } = 
 // in the slice file. For example: `useSelector((state: RootState) => state.login.value)`
 export const selectValue = (state: RootState) => state.login.value;
 export const loggedInStatus = (state: RootState) => state.login.isLoggedIn;
+export const authError = (state: RootState) => state.login.errorMessage;
 
 export default loginSlice.reducer;
